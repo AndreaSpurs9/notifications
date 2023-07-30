@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "825453260881",
+    "project_id": "notifications-e6fb5",
+    "storage_bucket": "notifications-e6fb5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825453260881:android:822770200d7ce301ac4870",
+        "android_client_info": {
+          "package_name": "it.andrea.notifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825453260881-aumrchavnvlcqctk5iqvdq07e642e9ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP98cGFPCV5NTBB6REbJcDtma1WCL7qes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825453260881-aumrchavnvlcqctk5iqvdq07e642e9ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
