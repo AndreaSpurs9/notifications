@@ -28,9 +28,8 @@ export class HomePage implements OnInit{
       'Content-Type': 'application/json',
       'Authorization': "key=" + environment.pushServerKey
     });
-    console.log("sendPush", pushKey)
     let body = {
-      "to": pushKey.toString(),
+      "to": pushKey,
       "notification": {
         "title": "Check this Mobile (title)",
         "body": "Rich Notification testing (body)",
