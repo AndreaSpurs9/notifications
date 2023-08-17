@@ -9,16 +9,13 @@ export class LocalStorageService {
   public async setObject(key: string, value: string) {
     await Preferences.set({
       key: key,
-      value: JSON.stringify({
-        id: key,
-        name: value
-      })
+      value: value
     });
   }
 
   // JSON "get" example
   public async getObject(): Promise<string> {
-    const res = await Preferences.get({ key: 'user' });
-    return JSON.stringify(res);
+    const res = await Preferences.get({ key: 'push' });
+    return JSON.stringify(res.value);
   }
 }

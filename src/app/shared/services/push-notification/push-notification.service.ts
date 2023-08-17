@@ -23,7 +23,7 @@ export class PushNotificationsService {
       }
     });
     PushNotifications.addListener('registration', (token) => {
-      this.local.setObject("notKey", token.value)
+      this.local.setObject("push", token.value)
     });
     PushNotifications.addListener('registrationError', (error) => {
       console.log(error);

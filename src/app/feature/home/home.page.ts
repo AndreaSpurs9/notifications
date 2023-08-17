@@ -10,29 +10,36 @@ import { environment } from 'src/environments/environment';
 })
 export class HomePage implements OnInit{
 
-  private pushKey: string = "";
 
   constructor(private http: HttpClient,
     private local: LocalStorageService) {}
 
-  public async ngOnInit(): Promise<void> {
-    this.pushKey = await this.local.getObject();
+  public ngOnInit(): void {
   }
 
-  public sendPush(): void {
+  public async sendPush(): Promise<void> {
+    let pushKey = "";
+    await this.local.getObject().then(
+      (val) => {
+        pushKey = val;
+      }
+    );
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': "key:" + environment.pushServerKey
+      'Authorization': "key=" + environment.pushServerKey
     });
+    console.log("sendPush", pushKey)
     let body = {
-      "to": this.pushKey,
+      "to": pushKey.toString(),
       "notification": {
-        "title": "Title",
-        "body": "Body notifications",
-        "sound": "default"
-      }
+        "title": "Check this Mobile (title)",
+        "body": "Rich Notification testing (body)",
+        "mutable_content": true,
+        "sound": "Tri-tone"
+        }
     };
-    console.log("send push")
-    this.http.post("https://fcm.googleapis.com/fcm/send", body, {headers: headers})
+    this.http.post<any>("https://fcm.googleapis.com/fcm/send", body, {headers: headers}).subscribe(() =>{
+      console.log("Sended")
+    })
   }
 }
