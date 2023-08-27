@@ -1,21 +1,47 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
 
   constructor() {}
 
-  public async setObject(key: string, value: string) {
-    await Preferences.set({
-      key: key,
-      value: value
-    });
+  private readonly defaultPreferences: DefaultPreferences = {
+    pushToken: '',
+  };
+
+  private defaultPreferences$: BehaviorSubject<DefaultPreferences> = new BehaviorSubject<DefaultPreferences>(
+    this.defaultPreferences
+  );
+
+  private preferences$: BehaviorSubject<DefaultPreferences> = new BehaviorSubject<DefaultPreferences>(
+    this.defaultPreferences
+  );
+
+  public async setPushPreferences(preferences: DefaultPreferences): Promise<void> {
+    try {
+      this.preferences$.next({...this.preferences$.value, pushToken: preferences.pushToken})
+    } catch (error) {
+      console.error('[LocalStorageService] - updatePushToken', error);
+    }
   }
 
-  // JSON "get" example
-  public async getObject(): Promise<string> {
-    const res = await Preferences.get({ key: 'push' });
-    return JSON.stringify(res.value);
+  public getPreferences(): Observable<DefaultPreferences> {
+    try {
+      return this.preferences$;
+    }  catch (error) {
+      console.error('[LocalStorageService] - getPreferencesCache', error);
+      return this.returnDefaultPreferences();
+    }
   }
+
+  private returnDefaultPreferences(): Observable<DefaultPreferences> {
+    console.info('[LocalStorageService] - returnDefaultPreferences()');
+    return this.defaultPreferences$;
+  }
+}
+
+class DefaultPreferences {
+  pushToken: string = '';
 }

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { first, from } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { environment } from 'src/environments/environment';
 
@@ -17,13 +18,11 @@ export class HomePage implements OnInit{
   public ngOnInit(): void {
   }
 
-  public async sendPush(): Promise<void> {
-    let pushKey = "";
-    await this.local.getObject().then(
-      (val) => {
-        pushKey = val;
-      }
-    );
+  public sendPush(): void {
+    let pushKey = '';
+    from(this.local.getPreferences()).subscribe(val => {
+      pushKey = val.pushToken;
+    });
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': "key=" + environment.pushServerKey

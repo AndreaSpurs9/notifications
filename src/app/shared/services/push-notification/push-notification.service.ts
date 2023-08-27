@@ -22,8 +22,8 @@ export class PushNotificationsService {
         // If permission is not granted
       }
     });
-    PushNotifications.addListener('registration', (token) => {
-      this.local.setObject("push", token.value)
+    PushNotifications.addListener('registration', async (token) => {
+      this.local.setPushPreferences({ pushToken: token.value })
     });
     PushNotifications.addListener('registrationError', (error) => {
       console.log(error);
