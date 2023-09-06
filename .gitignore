@@ -57,3 +57,6 @@ plugins/
 
 /www
 /.vscode
+
+resources/ios/**/*
+resources/android/**/*
