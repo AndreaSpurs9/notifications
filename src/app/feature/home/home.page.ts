@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { first, from } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { environment } from 'src/environments/environment';
@@ -12,17 +13,24 @@ import { environment } from 'src/environments/environment';
 export class HomePage implements OnInit{
 
 
-  constructor(private http: HttpClient,
+  constructor(private http: HttpClient, private plt: Platform,
     private local: LocalStorageService) {}
 
   public ngOnInit(): void {
   }
 
   public sendPush(): void {
-    let pushKey = '';
-    from(this.local.getPreferences()).subscribe(val => {
-      pushKey = val.pushToken;
-    });
+    let pushKey: any;
+    if (this.plt.is('desktop')) {
+      from(this.local.getPreferences()).subscribe(val => {
+        pushKey = val.webToken;
+      });
+    } else  {
+      from(this.local.getPreferences()).subscribe(val => {
+        pushKey = val.pushToken;
+      });
+    }
+
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': "key=" + environment.pushServerKey

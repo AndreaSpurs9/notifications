@@ -19,7 +19,9 @@ export class PushNotificationsService {
   }
 
   public addListner(): void {
+    console.log("listner")
     PushNotifications.addListener('registration', async (token) => {
+      console.log("registration", token)
       this.local.setPushPreferences({ pushToken: token.value })
     });
     PushNotifications.addListener('registrationError', (error) => {
@@ -28,7 +30,7 @@ export class PushNotificationsService {
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notifications) => {
-        console.log(notifications);
+        console.log("pushNotificationReceived",notifications);
       }
     );
   }

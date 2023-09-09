@@ -6,6 +6,7 @@ import {
   ActionPerformed,
   PushNotifications,
 } from '@capacitor/push-notifications';
+import { WebNotificationService } from 'src/app/shared/services/web-notification/web-notification.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,8 +14,12 @@ import {
 })
 export class AppComponent implements OnInit {
 
+  message:any;
+
   constructor(private plt: Platform,
-              private push: PushNotificationsService) {}
+              private push: PushNotificationsService,
+              private webPush: WebNotificationService) {}
+
   public ngOnInit(): void {
     this.plt.ready().then(() => {
       if(this.plt.is('android') || this.plt.is('ios')){
@@ -34,7 +39,11 @@ export class AppComponent implements OnInit {
             // Show some error
           }
         })
-      } else {}
+      } else {
+        this.webPush.initPush()
+        this.webPush.receiveMessage();
+        this.message = this.webPush.currentMessage;
+      }
     })
   }
 
