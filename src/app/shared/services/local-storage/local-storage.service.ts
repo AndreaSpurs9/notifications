@@ -20,7 +20,7 @@ export class LocalStorageService {
     this.defaultPreferences
   );
 
-  public async setPushPreferences(preferences: DefaultPreferences): Promise<void> {
+  public setPushPreferences(preferences: DefaultPreferences): void {
     try {
       this.preferences$.next({...this.preferences$.value, pushToken: preferences.pushToken})
     } catch (error) {
@@ -28,7 +28,7 @@ export class LocalStorageService {
     }
   }
 
-  public async setWebPreferences(preferences: DefaultPreferences): Promise<void> {
+  public setWebPreferences(preferences: DefaultPreferences): void {
     try {
       this.preferences$.next({...this.preferences$.value, webToken: preferences.webToken})
     } catch (error) {

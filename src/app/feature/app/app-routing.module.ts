@@ -7,10 +7,14 @@ const routes: Routes = [
     loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
   },
   {
+    path: 'received',
+    loadChildren: () => import('../received/received.module').then( m => m.ReceivedPageModule)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },
+  }
 ];
 
 @NgModule({

@@ -16,10 +16,10 @@ export class PushNotificationsService {
 
   public initPush(): void {
     PushNotifications.register();
+    this.addListner();
   }
 
   public addListner(): void {
-    console.log("listner")
     PushNotifications.addListener('registration', async (token) => {
       console.log("registration", token)
       this.local.setPushPreferences({ pushToken: token.value })

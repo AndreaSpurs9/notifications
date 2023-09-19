@@ -1,62 +1,70 @@
 import { Platform } from '@ionic/angular';
 import { PushNotificationsService } from '../../shared/services/push-notification/push-notification.service';
-
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {
   ActionPerformed,
   PushNotifications,
 } from '@capacitor/push-notifications';
 import { WebNotificationService } from 'src/app/shared/services/web-notification/web-notification.service';
+import { SwPush } from '@angular/service-worker';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  message: any;
 
-  message:any;
-
-  constructor(private plt: Platform,
-              private push: PushNotificationsService,
-              private webPush: WebNotificationService) {}
+  constructor(
+    private swPush: SwPush,
+    private plt: Platform,
+    private router: Router,
+    private push: PushNotificationsService,
+    private webPush: WebNotificationService
+  ) {}
 
   public ngOnInit(): void {
     this.plt.ready().then(() => {
-      if(this.plt.is('android') || this.plt.is('ios')){
-        PushNotifications.requestPermissions().then(result => {
-          if (result.receive === 'granted') {
-            // Register with Apple / Google to receive push via APNS/FCM
-            this.push.initPush();
-            this.push.addListner();
-            PushNotifications.addListener(
-              'pushNotificationActionPerformed',
-              (notification: ActionPerformed) => {
-                console.log("action", notification);
-                this.notification(notification);
-              },
-            );
+      if (this.plt.is('android') || this.plt.is('ios')) {
+        PushNotifications.checkPermissions().then((perm) => {
+          if (perm.receive === 'granted') {
+            this.addPush();
           } else {
-            // Show some error
+            PushNotifications.requestPermissions().then((result) => {
+              if (result.receive === 'granted') {
+                this.addPush();
+              } else {
+                // Show some error
+              }
+            });
           }
-        })
+        });
       } else {
-        this.webPush.initPush()
+        this.webPush.initPush();
         this.webPush.receiveMessage();
-        this.message = this.webPush.currentMessage;
       }
-    })
+    });
   }
 
-
-  private async notification(notificationInfo: any): Promise<void> {
-    console.log('Push action performed: ' + JSON.stringify(notificationInfo));
-    if (!!notificationInfo) {
-      switch (notificationInfo.action) {
-        case 'click':
-          break;
-        default:
-          break;
+  private addPush(): void {
+    this.push.initPush();
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+        this.notification(notification);
       }
+    );
+  }
+
+  private notification(notificationInfo: any): void {
+    console.log('Push action performed: ' + notificationInfo.actionId);
+    switch (notificationInfo.actionId) {
+      case 'tap':
+        this.router.navigateByUrl('received', {
+          state: { notification: notificationInfo },
+        });
+        break;
     }
   }
 }
