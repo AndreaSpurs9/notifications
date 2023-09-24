@@ -9,12 +9,9 @@ import { Observable, map } from 'rxjs';
 })
 export class ReceivedPage implements OnInit{
 
-  public notification: any
-  constructor(private route: ActivatedRoute) {}
+  constructor() {}
 
-  public ngOnInit(): void {
-
-  }
+  public ngOnInit(): void {}
 
 
 }

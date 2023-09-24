@@ -61,9 +61,7 @@ export class AppComponent implements OnInit {
     console.log('Push action performed: ' + notificationInfo.actionId);
     switch (notificationInfo.actionId) {
       case 'tap':
-        this.router.navigateByUrl('received', {
-          state: { notification: notificationInfo },
-        });
+        this.router.navigateByUrl('received');
         break;
     }
   }

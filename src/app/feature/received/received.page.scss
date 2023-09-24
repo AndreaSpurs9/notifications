@@ -6,6 +6,14 @@ app-received {
       top: 50%;
       right: 0;
       left: 0;
+      .label-col {
+        display: flex;
+        justify-content: center;
+        .label-title {
+          font-size: 20px;
+          padding: 10px;
+        }
+      }
     }
   }
 }

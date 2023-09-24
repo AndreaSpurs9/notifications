@@ -4,12 +4,9 @@ self.addEventListener("notificationclick", function(event) {
       .matchAll({
         type: "window",
       })
-      .then((clientList) => {
-        for (const client of clientList) {
-          if (client.url === "/" && "focus" in client) return client.focus();
-        }
+      .then(() => {
         if (clients.openWindow) {
-          console.log(event.notification.data.FCM_MSG.data.url)
+          console.log(clients)
           return clients.openWindow("/" + event.notification.data.FCM_MSG.data.url);
         }
       }),

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { first, from } from 'rxjs';
+import { from } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { environment } from 'src/environments/environment';
 
@@ -44,8 +44,6 @@ export class HomePage implements OnInit{
         "sound": "Tri-tone"
         }
     };
-    this.http.post<any>("https://fcm.googleapis.com/fcm/send", body, {headers: headers}).subscribe(() =>{
-      console.log("Sended")
-    })
+    this.http.post<any>("https://fcm.googleapis.com/fcm/send", body, {headers: headers});
   }
 }
