@@ -4,7 +4,6 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { environment } from 'src/environments/environment.prod';
-import { SwPush } from "@angular/service-worker";
 @Injectable({ providedIn: 'root' })
 export class WebNotificationService {
 
@@ -31,13 +30,6 @@ export class WebNotificationService {
     const messaging = getMessaging();
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload);
-      this.currentMessage.next(payload)
     });
-  }
-
-  public addListner(): void {
-
-    //  this.local.setPushPreferences({ pushToken: token.value })
-
   }
 }
