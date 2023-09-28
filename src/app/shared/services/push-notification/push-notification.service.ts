@@ -1,11 +1,7 @@
 // IONIC - ANGULAR
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
-  ActionPerformed,
-  PushNotificationSchema,
   PushNotifications,
-  Token,
 } from '@capacitor/push-notifications';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
